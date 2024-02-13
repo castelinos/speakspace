@@ -6,7 +6,6 @@ import { currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
 export default async function Page({ params }: { params: {id: string}}){
-
     const user = await currentUser();
     if( !user || !params.id) return null;
 
@@ -34,9 +33,30 @@ export default async function Page({ params }: { params: {id: string}}){
         <div className="mt-7">
           <Comment 
             threadId={ thread.id } 
-            currentUserImg={ user.imageUrl } 
+            currentUserImg={ userInfo.image } 
             currentUserId={ (userInfo._id).toString() }
           />
+
+          <div className="mt-10">
+            {
+              thread.children.map((childItem: any) => {
+                return (
+                  <ThreadCard
+                    key={childItem._id}
+                    id={childItem._id}
+                    currentUserId={childItem?.id || ""}
+                    parentId={childItem.parentId}
+                    content={childItem.text}
+                    author={childItem.author}
+                    community={childItem.community}
+                    createdAt={childItem.createdAt}
+                    comments={childItem.children}
+                    isComment
+                  />
+                );
+              })
+            }
+          </div>
         </div>
       </section>
     )
