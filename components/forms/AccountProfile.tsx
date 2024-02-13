@@ -37,7 +37,7 @@ interface Props{
     btnTitle:string;
 }
 
-export default function AccountProfile({ user,btnTitle } : Props ) {
+function AccountProfile({ user,btnTitle } : Props ) {
 
   const [ files, setFiles ] = useState<File[]>([]);
   const { startUpload } = useUploadThing("media");
@@ -191,3 +191,5 @@ export default function AccountProfile({ user,btnTitle } : Props ) {
     </Form>
   )
 }
+
+export default AccountProfile;

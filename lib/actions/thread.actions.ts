@@ -103,3 +103,37 @@ export async function fetchThreadById( id:string ){
         return [];
     }
 }
+
+export async function addCommentToThread( 
+    threadId: string, 
+    commentText:string, 
+    userId: string, 
+    path: string 
+) {
+    connectToDb();
+    try {
+        // Original Thread refers to parent level - Post
+        const originalThread = await Thread.findById(threadId);
+
+        if (!originalThread) throw new Error("Thread not found!");
+
+        /* Comment Thread refers to child level thread 
+           which has a 'parentId' attribute in itself
+           and its child level id being pushed to children 
+           attribute of the parent post.    
+        */
+        const commentThread = new Thread({
+            text: commentText,
+            author: userId,
+            parentId: threadId,
+        });
+
+        const savedCommentThread = await commentThread.save();
+        await originalThread.children.push(savedCommentThread._id);
+        await originalThread.save();
+
+        revalidatePath(path)
+    } catch (error:any) {
+        console.log('Error adding comment to thread', error.message);
+    }
+}

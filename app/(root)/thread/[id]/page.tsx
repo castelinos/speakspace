@@ -1,4 +1,5 @@
 import ThreadCard from "@/components/cards/ThreadCard";
+import Comment from "@/components/forms/Comment";
 import { fetchThreadById } from "@/lib/actions/thread.actions";
 import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
@@ -14,19 +15,29 @@ export default async function Page({ params }: { params: {id: string}}){
 
     const thread = await fetchThreadById( params.id );
 
-    <section className="relative">
-      <div>
-        <ThreadCard
-          key={thread._id}
-          id={thread._id}
-          currentUserId={user?.id || ""}
-          parentId={thread.parentId}
-          content={thread.text}
-          author={thread.author}
-          community={thread.community}
-          createdAt={thread.createdAt}
-          comments={thread.children}
-        />
-      </div>
-    </section>;
+    return (
+      <section className="relative">
+        <div>
+          <ThreadCard
+            key={thread._id}
+            id={thread._id}
+            currentUserId={user?.id || ""}
+            parentId={thread.parentId}
+            content={thread.text}
+            author={thread.author}
+            community={thread.community}
+            createdAt={thread.createdAt}
+            comments={thread.children}
+          />
+        </div>
+
+        <div className="mt-7">
+          <Comment 
+            threadId={ thread.id } 
+            currentUserImg={ user.imageUrl } 
+            currentUserId={ (userInfo._id).toString() }
+          />
+        </div>
+      </section>
+    )
 }
