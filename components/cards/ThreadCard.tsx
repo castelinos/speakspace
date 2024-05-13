@@ -1,3 +1,4 @@
+import { formatDateString } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -69,7 +70,7 @@ export default function ThreadCard({
 
             <p className="mt-2 text-small-regular text-light-2">{content}</p>
 
-            <div className={`${ isComment && 'mb-10'} mt-5 flex flex-col gap-3`}>
+            <div className={`${isComment && "mb-10"} mt-5 flex flex-col gap-3`}>
               <div className="flex gap-3.5">
                 {/* Like Button */}
                 <Image
@@ -124,6 +125,26 @@ export default function ThreadCard({
           </div>
         </div>
       </div>
+
+      {/* Time and Community tag on thread card */}
+      {!isComment && community && (
+        <Link
+          className="mt-5 flex items-center"
+          href={`/communities/${community.id}`}
+        >
+          <p className="text-subtle-medium text-gray-1">
+            {formatDateString(createdAt)} - {`\t${community.name}`} Community
+          </p>
+
+          <Image
+            src={community.image}
+            alt={community.name}
+            width={14}
+            height={14}
+            className="ml-1 rounded-full object-cover"
+          />
+        </Link>
+      )}
     </article>
   );
 }
