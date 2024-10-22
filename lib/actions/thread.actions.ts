@@ -24,7 +24,7 @@ export async function createThread({
     const createdThread = await Thread.create({
       text,
       author,
-      community: null,
+      community: communityId ? communityId : null,
     });
 
     await User.findByIdAndUpdate(author, {
