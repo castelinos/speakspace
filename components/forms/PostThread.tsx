@@ -37,7 +37,7 @@ function PostThread({ userId }: { userId: string }) {
     await createThread({
       text: values.thread,
       author: userId,
-      communityId: organization ? organization.id : null,
+      communityId: organization ? JSON.stringify(organization.id) : null,
       path: pathname,
     });
 
