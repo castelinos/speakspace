@@ -19,6 +19,7 @@ function ProfileHeader({ accountId, authUserId, name, username, imgUrl, bio }: P
                 src={imgUrl}
                 alt="Profile photo"
                 fill
+                sizes="(max-width: 200px)"
                 className="rounded-full object-cover shadow-2xl"
               />
             </div>

@@ -1,4 +1,5 @@
 import { type ClassValue, clsx } from "clsx";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -37,4 +38,8 @@ export function formatThreadCount(count: number): string {
     const threadWord = count === 1 ? "Thread" : "Threads";
     return `${threadCount} ${threadWord}`;
   }
+}
+
+export function signOutUser( router: AppRouterInstance ){
+  router.push("/sign-in")
 }
